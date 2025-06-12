@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, CheckCircle } from 'lucide-react';
-import { restaurantTables, getAvailableTables, getTablesByCapacity } from '../data/tableData';
+import { getAvailableTables, getTablesByCapacity } from '../data/tableData';
 import { mockRestaurant } from '../data/mockData';
 
 export const TableSelectionPage: React.FC = () => {
@@ -28,7 +28,7 @@ export const TableSelectionPage: React.FC = () => {
       <div className="bg-primary-card p-4 sticky top-0 z-10">
         <div className="text-center mb-4">
           <h1 className="text-2xl font-bold">{mockRestaurant.name}</h1>
-          <p className="text-text-secondary mt-2">{mockRestaurant.address}</p>
+          {mockRestaurant.address && <p className="text-text-secondary mt-2">{mockRestaurant.address}</p>}
         </div>
 
         {/* Party Size Selector */}
@@ -119,8 +119,10 @@ export const TableSelectionPage: React.FC = () => {
         <div className="bg-primary-card rounded-lg p-4">
           <h3 className="font-semibold mb-2">Restaurant Information</h3>
           <div className="text-sm text-text-secondary space-y-1">
-            <p>📍 {mockRestaurant.address}</p>
-            <p>⭐ {mockRestaurant.rating} ({mockRestaurant.totalReviews} reviews)</p>
+            {mockRestaurant.address && <p>📍 {mockRestaurant.address}</p>}
+            {mockRestaurant.rating && mockRestaurant.totalReviews && (
+              <p>⭐ {mockRestaurant.rating} ({mockRestaurant.totalReviews} reviews)</p>
+            )}
             <p>🕒 Open: 11:00 AM - 11:00 PM</p>
             <p>📞 +91 98765 43210</p>
           </div>
@@ -128,4 +130,4 @@ export const TableSelectionPage: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};

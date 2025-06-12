@@ -1,10 +1,4 @@
-import { Table } from '../types';
-
-export interface TableInfo extends Table {
-  seatingCapacity: number;
-  isOccupied?: boolean;
-  status?: 'available' | 'occupied' | 'reserved';
-}
+import { TableInfo } from '../types';
 
 export const restaurantTables: TableInfo[] = [
   {

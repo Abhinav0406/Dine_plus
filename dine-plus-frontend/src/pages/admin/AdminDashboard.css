@@ -1,0 +1,27 @@
+.admin-dashboard {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-dashboard h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.admin-dashboard section {
+  margin-bottom: 30px;
+}
+
+.admin-dashboard h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.admin-dashboard ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.admin-dashboard li {
+  margin-bottom: 5px;
+}

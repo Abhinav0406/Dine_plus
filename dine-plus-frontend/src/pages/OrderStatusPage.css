@@ -1,0 +1,69 @@
+.order-status-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #343a40;
+  min-height: 100vh;
+}
+
+.order-status-page h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.order-details {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.order-details p {
+  margin: 10px 0;
+}
+
+.order-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.order-details li {
+  margin: 5px 0;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.payment-button, .menu-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.payment-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.menu-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.payment-button:hover {
+  background-color: #218838;
+}
+
+.menu-button:hover {
+  background-color: #0056b3;
+}

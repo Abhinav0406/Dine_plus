@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Star, Search, ShoppingCart, ChevronDown, Plus } from 'lucide-react';
+import { Search, ShoppingCart, ChevronDown, Plus } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { mockRestaurant, mockMenuItems, menuCategories } from '../data/mockData';
 import { MenuItem } from '../types';
@@ -65,34 +65,27 @@ export const MenuPage: React.FC = () => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-xl font-bold">{currentRestaurant.name}</h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-sm text-text-secondary">
-                {currentRestaurant.rating}
-              </span>
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={12}
-                    className={`${
-                      star <= Math.floor(currentRestaurant.rating)
-                        ? 'fill-primary-accent text-primary-accent'
-                        : 'text-gray-400'
-                    }`}
-                  />
-                ))}
+            {currentRestaurant.rating && (
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-sm text-text-secondary">
+                  {currentRestaurant.rating}
+                </span>
               </div>
-              <span className="text-sm text-text-secondary">
-                ({currentRestaurant.totalReviews} reviews)
-              </span>
-            </div>
+            )}
           </div>
-        </div>
-
-        {/* Promotional Banner */}
-        <div className="bg-primary-accent text-black p-4 rounded-lg mb-4">
-          <h2 className="font-bold text-lg">20% off your first order</h2>
-          <p className="text-sm">Use code WELCOME20</p>
+        </div>        {/* Banner Image */}
+        <div className="mb-4">
+          <div className="h-48 bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden">
+            <img 
+              src="/images/banner-placeholder.jpg" 
+              alt="Restaurant Banner"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMxZTI5M2IiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzRiNTY2MyI+QmFubmVyIEltYWdlPC90ZXh0Pjwvc3ZnPg=='
+              }}
+            />
+          </div>
         </div>
 
         {/* Table Number */}

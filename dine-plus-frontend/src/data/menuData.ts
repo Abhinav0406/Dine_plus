@@ -844,3 +844,6 @@ export const menuCategories = [
   'Desserts',
   'Ice Cream'
 ];
+
+// Export menuItems for backward compatibility
+export const menuItems = restaurantMenuItems;

@@ -10,38 +10,55 @@ export interface MenuItem {
 }
 
 export interface CartItem {
-  id: string;
   menuItem: MenuItem;
   quantity: number;
-  specialInstructions?: string;
 }
 
 export interface Restaurant {
   id: string;
   name: string;
-  rating: number;
-  totalReviews: number;
-  image: string;
-  address: string;
+  image?: string;
+  address?: string;
+  rating?: number;
+  totalReviews?: number;
 }
 
 export interface Table {
   id: string;
   number: string;
   restaurantId: string;
+  status: 'available' | 'occupied' | 'reserved';
+}
+
+export interface TableInfo extends Table {
+  seatingCapacity: number;
+  isOccupied?: boolean;
+}
+
+export interface OrderItem {
+  id?: string;
+  item: string;
+  quantity: number;
+  price: number;
 }
 
 export interface Order {
   id: string;
   tableId: string;
-  items: CartItem[];
-  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered';
-  subtotal: number;
-  tax: number;
+  items: OrderItem[];
+  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
   total: number;
-  estimatedTime?: number;
-  createdAt: Date;
+  paymentStatus: 'pending' | 'completed' | 'failed';
   specialInstructions?: string;
+  createdAt: Date;
+}
+
+export interface Feedback {
+  id: string;
+  orderId: string;
+  rating: number;
+  comment?: string;
+  createdAt: Date;
 }
 
 export interface PaymentMethod {
@@ -53,7 +70,7 @@ export interface PaymentMethod {
 
 export interface User {
   id: string;
-  name?: string;
-  phone?: string;
-  email?: string;
-} 
+  email: string;
+  role: 'admin' | 'staff' | 'kitchen_staff' | 'user';
+  fullName: string;
+}

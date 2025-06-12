@@ -12,10 +12,13 @@ export const CartPage: React.FC = () => {
     updateCartItemQuantity, 
     removeFromCart, 
     getCartTotal,
-    clearCart 
+    placeOrder,
+    clearCart,
+    setCurrentTable
   } = useStore();
 
   const [specialInstructions, setSpecialInstructions] = useState('');
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   // Calculate pricing
   const subtotal = getCartTotal();
@@ -30,10 +33,31 @@ export const CartPage: React.FC = () => {
     }
   };
 
-  const handleCheckout = () => {
-    // Create mock order
-    const orderId = `order_${Date.now()}`;
-    navigate(`/payment/${orderId}`);
+  // Redirect to Order Status Page after placing an order
+  const handleCheckout = async () => {
+    if (!tableId || cart.length === 0) return;
+    
+    setIsPlacingOrder(true);
+    try {
+      // Set the current table in the store
+      setCurrentTable(tableId);
+      
+      // Place the order with special instructions
+      const result = await placeOrder(specialInstructions);
+      
+      if (result.success) {
+        // Clear the cart after successful order
+        clearCart();
+        
+        // Navigate to order status page with the new orderId
+        navigate(`/order-status/${result.orderId}`);
+      }
+    } catch (error) {
+      console.error("Error creating order:", error);
+      alert("Failed to place order. Please try again.");
+    } finally {
+      setIsPlacingOrder(false);
+    }
   };
 
   const handleGoBack = () => {
@@ -82,8 +106,8 @@ export const CartPage: React.FC = () => {
       {/* Cart Items */}
       <div className="p-4">
         <div className="space-y-4 mb-6">
-          {cart.map((item) => (
-            <div key={item.id} className="bg-primary-card rounded-lg p-4">
+          {cart.map((item, index) => (
+            <div key={item.menuItem.id} className="bg-primary-card rounded-lg p-4">
               <div className="flex gap-4">
                 <div className="w-16 h-16 bg-gray-600 rounded-lg flex-shrink-0">
                   <img
@@ -102,11 +126,7 @@ export const CartPage: React.FC = () => {
                       <p className="text-sm text-text-secondary">
                         Quantity: {item.quantity}
                       </p>
-                      {item.specialInstructions && (
-                        <p className="text-sm text-text-secondary mt-1">
-                          Extra garlic
-                        </p>
-                      )}
+
                     </div>
                     <div className="text-right">
                       <div className="font-bold text-primary-accent">
@@ -119,21 +139,21 @@ export const CartPage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <button
-                        onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                        onClick={() => handleQuantityChange(item.menuItem.id, item.quantity - 1)}
                         className="w-8 h-8 bg-primary-bg rounded-full flex items-center justify-center"
                       >
                         <Minus size={16} />
                       </button>
                       <span className="text-lg font-semibold">{item.quantity}</span>
                       <button
-                        onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                        onClick={() => handleQuantityChange(item.menuItem.id, item.quantity + 1)}
                         className="w-8 h-8 bg-primary-bg rounded-full flex items-center justify-center"
                       >
                         <Plus size={16} />
                       </button>
                     </div>
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item.menuItem.id)}
                       className="p-2 text-red-400 hover:text-red-300"
                     >
                       <Trash2 size={16} />
@@ -183,11 +203,16 @@ export const CartPage: React.FC = () => {
         {/* Checkout Button */}
         <button
           onClick={handleCheckout}
-          className="w-full bg-primary-accent text-black py-4 rounded-lg font-bold text-lg hover:bg-green-400 transition-colors"
+          disabled={isPlacingOrder}
+          className={`w-full py-4 rounded-lg font-bold text-lg transition-colors ${
+            isPlacingOrder 
+              ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+              : 'bg-primary-accent text-black hover:bg-green-400'
+          }`}
         >
-          Checkout
+          {isPlacingOrder ? 'Placing Order...' : 'Place Order'}
         </button>
       </div>
     </div>
   );
-}; 
+};
